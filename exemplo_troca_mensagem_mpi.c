@@ -1,5 +1,5 @@
 /*
- C Example 
+ C Example de troca de mensagem mpi
  Para compilar - mpicc te.c -o teste
  Para rodar    - mpirun -np 4 ./teste 
 */
