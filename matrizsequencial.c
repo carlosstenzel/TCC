@@ -1,4 +1,8 @@
-/*Multiplicação de matrizes sequencial*/
+/*
+Multiplicação de matrizes sequencial
+Com
+Marcação de tempo
+*/
 #include <stdio.h>
 #include <math.h>
 #include <sys/time.h>
