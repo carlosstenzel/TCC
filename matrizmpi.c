@@ -1,4 +1,6 @@
-/* Multiplicaçã de matrizes MPI */
+/*
+Multiplicaçã de matrizes MPI
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
