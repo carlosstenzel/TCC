@@ -15,6 +15,9 @@ main(){
     int nproc;
     int i, j, k, n;
     size = SIZE;
+    /*
+        num de proc
+    */
     nproc =2;
     struct timeval inicio, final;
     int tempogasto;
