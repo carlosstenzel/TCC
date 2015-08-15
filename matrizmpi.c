@@ -70,8 +70,6 @@ int main(int argc , char *argv[]){
 	}
     }
 
-    // espera até ter o resultado completo
-    // então imprime a matriz resultado
     MPI_Barrier(MPI_COMM_WORLD);
 	
     // Finaliza
