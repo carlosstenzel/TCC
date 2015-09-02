@@ -1,0 +1,51 @@
+/*Multiplicação de matrizes cpar*/
+#include <stdio.h>
+#include <math.h>
+#include <sys/time.h>
+
+shared int size;
+shared float A[1000][1000];
+shared float B[1000][1000];
+shared float C[1000][1000];
+
+task spec inicializa_matriz();
+task body inicializa_matriz(){
+    int i,j;
+    size=1000;
+    forall i=0 to size-1 {
+       for(j=0;j<size;j++){
+            A[i][j]=3*i+j;
+            B[i][j]=i+3*j;
+            C[i][j]=0.0;
+       }
+    }
+}
+task spec multiplica_matriz();
+task body multiplica_matriz(){
+    int i,j,k;
+    size=1000;
+    forall i=0 to size-1 {
+       for(k=0;k<size;k++){
+          for(j=0;j<size;j++){
+             C[i][j]=C[i][j]+A[i][k]*B[k][j];
+          }
+       }
+    }
+}
+
+main(){
+    int nprocs=4;
+    //tempo
+    struct timeval iniciotmp, finaltmp;
+    int tempogasto;
+    alloc_proc(nprocs);
+    create nprocs, inicializa_matriz();
+    wait_all();
+    gettimeofday(&iniciotmp, NULL);
+    create nprocs, multiplica_matriz();
+    wait_all();
+    gettimeofday(&finaltmp, NULL);
+     tempogasto = (int) (1000 * (finaltmp.tv_sec - iniciotmp.tv_sec) + (finaltmp.tv_usec - iniciotmp.tv_usec) / 1000);
+     printf("Tempo decorrido: %d\n", tempogasto);
+     return 0;
+}

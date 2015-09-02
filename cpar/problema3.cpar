@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+
+shared double matriz [100][100];
+
+task spec init();
+task spec desv_std();
+
+task body init(){
+    int i,j;
+    for (i=0; i<100; i++){
+        for (j = 0; j < 100; j++)
+        {
+            matriz[i][j] =i+j;
+
+        }
+    }
+
+}
+
+task body desv_std (){
+    float mean=0.0, sum_deviation=0.0;
+    int i,j;
+
+    for (i=0; i<100; i++){
+        for (j = 0; j < 100; j++)
+        {
+            mean += matriz[i][j];
+
+        }
+    }
+    int n = 100*100;
+    mean=mean/n;
+
+    for (i=0; i<100; i++){
+        for (j = 0; j < 100; j++)
+        {
+            sum_deviation+=(matriz[i][j]-mean)*(matriz[i][j]-mean);
+
+        }
+    }
+
+    printf ("Desvio de : %f\n",sqrt(sum_deviation/n));  
+}
+
+
+int main()
+{
+
+    alloc_proc(2); 
+
+    create 1, init();
+    wait(init);
+
+    create 1, desv_std();
+    wait_all();
+
+    return 0;
+}

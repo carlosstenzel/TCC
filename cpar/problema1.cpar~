@@ -1,0 +1,104 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+shared double A [100][100];
+shared double B [100][100];
+shared double C [100][100];
+shared double D [100][100];
+shared double res1 [100][100];
+shared double res2 [100][100];
+shared double res3 [100][100];
+
+task spec multiplicarAB();
+task spec multiplicarCD();
+
+task spec sumar();
+task spec print();
+
+task body print(){
+    int i,j;
+    for (i = 0; i < 100; ++i)
+        {
+            for (j = 0; j < 100; ++j)
+            {
+                printf("%f ",res3[i][j]);
+            }
+            printf("/n");
+        }
+    printf("/n");
+}
+
+task body multiplicarAB(){
+    int i,j,k;
+    for (i = 0; i < 100; ++i)
+    {
+        for (j = 0; j < 100; ++j)
+        {
+            res1 [i][j] = 0;
+            for (k = 0; k < 100; ++k)
+            {
+               res1[i][j] = res1[i][j] + (A[i][k] * B[k][j]);
+            }
+        }
+    }
+}
+
+task body multiplicarCD(){
+    int i,j,k;
+    for (i = 0; i < 100; ++i)
+    {
+        for (j = 0; j < 100; ++j)
+        {
+            res2 [i][j] = 0;
+            for (k = 0; k < 100; ++k)
+            {
+               res2[i][j] = res2[i][j] + (A[i][k] * B[k][j]);
+            }
+        }
+    }
+}
+
+task body sumar(){
+    int i,j;
+    forall i=1 to 100 {
+        for (j = 0; j < 100; ++j)
+        {
+            res3[i][j]= res1[i][j] + res2[i][j];
+        }
+    }
+}
+
+
+
+int main()
+{
+    int i,j;
+    for (i=0; i<100; i++){
+        for (j = 0; j < 100; j++)
+        {
+            /*A[i][j] = i + j;
+            B[i][j] = i + 2*j;
+            C[i][j] = i*2 + j*3;
+            D[i][j] = i*2 + j;*/
+            A[i][j] = 1;
+            B[i][j] = 1;
+            C[i][j] = 1;
+            D[i][j] = 1;
+        }
+    }
+
+    alloc_proc(4);
+
+    create 1, multiplicarAB();
+    create 1, multiplicarCD();
+
+    wait_all();
+
+    create 1, sumar();
+    
+    wait_proc(sumar);
+
+    create 1, print();
+
+    return 0;
+}

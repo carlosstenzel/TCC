@@ -1,0 +1,12 @@
+#!/bin/csh
+echo Eliminando semaforos e memoria compartilhada: $user
+#
+foreach z (`ipcs -m | grep $user | cut -c12-19`)
+  echo m $z
+  ipcrm shm $z
+end 
+foreach z (`ipcs -s | grep $user | cut -c12-19`)
+  echo s $z
+  ipcrm sem $z
+end
+

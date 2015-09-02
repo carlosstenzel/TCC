@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+shared double A [100][100];
+shared float tosearch;
+
+task spec buscar();
+
+task body buscar(){
+    int i,j;
+
+    for (i = 0; i < 100; ++i)
+        {
+            for (j = 0; j < 100; ++j)
+            {
+                if (A[i][j]==tosearch){
+                    printf("Encontrado em: i->%i, j->%i \n",i,j);
+                }
+            }
+        }
+    //printf("Numero nao encontrado\n");
+}
+
+
+
+int main()
+{
+    int i,j;
+    srand (time(NULL));
+    for (i=0; i<100; i++){
+        for (j = 0; j < 100; j++)
+        {
+            A[i][j] =rand() % 1000;
+
+        }
+    }
+
+    alloc_proc(4); 
+
+    printf("Digite o número:");
+    scanf("%f",&tosearch);
+
+    create 4, buscar();
+
+    wait_all();
+
+    return 0;
+}
